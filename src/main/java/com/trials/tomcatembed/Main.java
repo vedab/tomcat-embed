@@ -15,10 +15,12 @@ import java.io.Writer;
 
 public class Main {
 
+  private final static int HTTP_PORT = 8080;
+
   public static void main(String[] args)
   throws LifecycleException, InterruptedException, ServletException {
     Tomcat tomcat = new Tomcat();
-    tomcat.setPort(8080);
+    tomcat.setPort(HTTP_PORT);
 
     Context ctx = tomcat.addContext("/", new File(".").getAbsolutePath());
 
@@ -47,7 +49,43 @@ public class Main {
     });
     ctx.addServletMapping("/tomcat", "tomcat");
     
+    Tomcat.addServlet(ctx, "files", new HttpServlet() {
+		private static final long serialVersionUID = 1L;
+
+		protected void service(HttpServletRequest req, HttpServletResponse resp) 
+	      throws ServletException, IOException {
+	        Writer w = resp.getWriter();
+	        w.write("Files accessible by Tomcat Embeded server are...");
+	        
+	        File f = new File(".");
+	        if(f.exists() && (f.isDirectory() || f.isFile())){
+	        	if(f.isFile()){
+	        		w.write("\nDirectory: "+f.getAbsolutePath() +"/"+f.getName());
+	        	}else{
+	        		for(File subFile : f.listFiles()){
+	        			String type = subFile.isDirectory()? "Dir " : "File";
+	        			w.write( String.format("\n%s: %s%s%s",
+	        					type, f.getAbsolutePath(), File.separator, subFile.getName()));
+	        		}
+	        	}
+	        }
+	        
+	        w.flush();
+	    }
+    });
+    ctx.addServletMapping("/files", "files");
+    
+    
     tomcat.start();
+	
+	System.out.printf("******* Tomcat server started at Port:%d *******", HTTP_PORT);
+	
+	System.out.printf("\n=====> Access: \n" +
+			"\thttp://localhost:%d/\n" +
+			"\thttp://localhost:%d/tomcat\n" +
+			"\thttp://localhost:%d/files\n",
+			HTTP_PORT, HTTP_PORT, HTTP_PORT);
+			
     tomcat.getServer().await();
   }
 

@@ -1,6 +1,6 @@
 # Tomcat Embed
 
-This project will help you run Tomcat server embeded as an application.
+This project will help you run Tomcat Server embedded into your code and run as an application.
 
 ## Prerequisite:
  - JDK 1.6 or above
@@ -13,6 +13,7 @@ This project will help you run Tomcat server embeded as an application.
 
 ## How to code?
  - Edit __com.trials.tomcatembed.Main.java__ file.
- - You can also run __gradle[w] eclipse__ and open the project in Eclipse IDE and start editing the __Main.java__ file.
-
+ - You can also run __gradle[w] eclipse__ and 
+   - Open the project in Eclipse IDE and 
+   - Start working with the __[Main.java](src/main/java/com/trials/tomcatembed/Main.java)__ file.
  

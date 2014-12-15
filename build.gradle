@@ -9,7 +9,6 @@
 
 // Apply the java plugin to add support for Java
 apply plugin: 'java'
-apply plugin: 'jetty'
 apply plugin: 'eclipse'
 apply plugin: 'application'
 
@@ -32,17 +31,4 @@ dependencies {
 
 /** Run application **/
 mainClassName = "com.trials.tomcatembed.Main"
-
-/** Jetty **/
-// Use JettyRun for hot deployment - run "gradle[w] compileJava" in a different command/terminal window, 
-// when "gradle[w] jettyRun" is running in a command/terminal
-jettyRun {
-  httpPort = 80
-  stopPort = 81
-  stopKey = packName
-  contextPath = ''
-  reload = 'automatic'
-  scanIntervalSeconds = 2
-  dependsOn('compileJava')
-}
 
